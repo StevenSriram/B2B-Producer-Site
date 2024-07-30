@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        :root{
+            --color: rgb(13, 255, 13);
+        }
+        body{
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(to top, #30cfd0 0%, #330867 100%);
+        }
+        .btn {
+        background: none;
+        border: 2px solid black;
+        padding: 0.8em 1em;
+        margin: 1em;
+        user-select: none;
+        text-transform: uppercase;
+        color: var(--color);
+        background-color: black;
+        letter-spacing: 2.2px;
+        cursor: pointer;
+        border-radius: 10px;
+        transform: translateY(0);
+        transition: all 0.5s linear;
+        }
+        .burst:hover {
+        box-shadow: 0 0 1.1rem 8px whitesmoke;
+        transform: translateY(-0.5rem);
+        }
+    </style>
+   
+</head>
+<body>
+    <div class="cart-product">
+        <img src="{{product.Image_Path}}" alt="{{product.P_Name}}" width="300px">
+        <h3>{{product.P_Name}}</h3>
+        <p>${{product.P_Price}}</p>
+       <button class="btn burst" id="rzp-button1">Pay</button>
+    </div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const payButton = document.getElementById('rzp-button1');
+
+    payButton.addEventListener('click', () => {
+        axios.post('/order')
+            .then((response) => {
+                const orderId = response.data.id;
+
+                const options = {
+                    "key": "rzp_test_w6Pb7Tw8dykzyp",
+                    "amount": {{product.P_Price}} * 100, // Amount in the smallest currency unit
+                    "currency": "INR",
+                    "name": "M @ W",
+                    "description": "{{product.P_Name}}",
+                    "image": "/images/M2W.png",
+                    "order_id": orderId,
+                    "prefill": {
+                        "name": "{{user.Name}}",
+                        "email": "{{user.Email}}"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    },
+                    "handler": function (response) {
+                        alert(response.razorpay_payment_id);
+                        alert(response.razorpay_order_id);
+                        alert(response.razorpay_signature);
+                        window.location.href = '/login'
+                    }
+                };
+
+                const rzp1 = new Razorpay(options);
+                rzp1.open();
+            })
+            .catch((error) => {
+                console.error('Error creating order:', error);
+            });
+    });
+});
+
+</script>
+</body>
+</html>
+
+
+
+
+{{!--     
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var orderId;
+        $(document).ready(function(){
+
+            var settings = {
+                "url": "/create/orderId",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify({
+                    "amount": "${{product.P_Price}}00"
+                }),
+
+            };
+
+            //creates new orderId everytime
+            $.ajax(settings).done(function (response) {
+                orderId = response.orderId;
+                console.log(orderId);
+                $("button").show();
+            });
+        });
+
+        document.getElementById('rzp-button1').onclick = function(e){
+        
+        var options = {
+            "key": "Yrzp_test_YrLqd1cFuvg0Jm", 
+            "amount": "${{product.P_Price}}00",
+            "currency": "INR",
+            "name": "Buy Cracker",
+            "description": "Manufacturer 2 Worker",
+            "image": "https://example.com/your_logo",
+            "order_id": "order_IluGWxBm9U8zJ8", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            "handler": function (response){
+                alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+                alert(response.razorpay_signature)
+
+                var settings = {
+                    "url": "/api/payment/verify",
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({response}),
+                }
+
+                $.ajax(settings).done(function (response){
+                alert(JSON.stringify(response))
+            });
+            },
+            "theme": {
+            "color": "#3399cc"
+            }
+        };
+
+        var rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response){
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+        });
+
+        rzp1.open();
+        e.preventDefault();
+}
+    </script> --}}

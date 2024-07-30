@@ -1,0 +1,123 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-image: url('/images/cracker.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    /* background: linear-gradient(140deg,rgba(0, 0, 0, 0.918),rgba(0, 0, 0, 0.774),
+    rgba(0, 0, 0, 0.57),rgba(0, 0, 0, 0.77),rgba(0, 0, 0, 0.375),rgba(0, 0, 0, 0.918));
+     */
+}
+main{
+    box-shadow: 0 0 20px ghostwhite;
+    border-radius: 20px;
+    background: radial-gradient(rgba(255, 255, 255, 0.055),
+    rgba(255, 255, 255, 0.623),black);
+    min-width: 400px;
+    min-height: 450px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 40px;
+}
+.appendbox{
+    width: 100%;
+    height: 400px;
+    padding: 0 40px;
+}
+.appendbox h2{
+    color: whitesmoke;
+    text-align: center;
+    font-size: 2em;
+    width: 100%;
+    text-shadow: 0 0 20px blueviolet;
+    padding: 20px 0; 
+    margin: 10px 0;
+}
+form div{
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid black;
+    margin: 20px 0;
+}
+form label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1.1em;
+    color: black;
+    font-weight: 500;
+    pointer-events: none;
+    transition: .5s;
+}
+input[type="file"]
+{
+    opacity: 0;
+}
+input[type="file"]:focus:hover,
+input[type="file"]:valid:hover{
+    position: relative;
+    top: 15px;
+    opacity: 1;
+}
+form div input:focus~label,
+form div input:valid~label{
+    top: -3px;
+}
+
+form input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+form button{
+    color: rgb(5, 245, 5);
+    text-align: center;
+    font-weight: 500;
+    margin: 20px 70px;
+    background-color: black;
+    padding: 10px 20px;
+    border-radius: 25px;
+}
+#title{
+    display: none;
+    font-size: 2.5em;
+    color: black;
+    text-align: center;
+    text-shadow: 0 0 15px ghostwhite;
+    margin-bottom: 50px;
+}
+#title::first-letter{
+    font-size: 1em;
+    color: ghostwhite;
+    text-shadow: 0 0 10px black;
+}
+#productList {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: ghostwhite;
+}
+.product {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 20px 10px;
+    width: 200px;
+    text-align: center;
+}

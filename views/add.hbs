@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- add.hbs -->
+    {{!-- <meta http-equiv="refresh" content="5;url=/"> --}}
+    
+    <title>Add_Product</title>
+    <link rel="stylesheet" href="/add.css">
+</head>
+<body>
+    <main>
+        <div class="appendbox" id="appendbox">
+            <h2>Anything New</h2>
+            <form action="/product" method="POST" enctype="multipart/form-data">
+                <div>
+                    <input type="text" id="name" name="name" required>
+                    <label for="name">Cracker</label>
+                </div>
+                <div>
+                    <input type="number" id="price" name="price" required>
+                    <label for="price">Price</label>
+                </div>
+                <div>
+                    <input type="file" id="photo" name="photo" accept="image/*" required>
+                    <label for="photo">Image</label>
+                </div>
+                <button type="submit">APPEND</button>
+            </form>
+            {{#if filePath}}
+              <h2 style="color: whitesmoke;">Already Exists</h2>
+              <img src="{{filePath}}" alt="Uploaded Image" style="max-width: 400px; max-height: 400px;">
+            {{/if}}
+        </div>
+    </main>
+
+    <section>
+    <h1 id="title"> My Products </h1>
+    <div id="productList" class="product-list">
+            {{#each myProducts}}
+            <div class="product">
+                <img src="{{Image_Path}}" alt="{{P_Name}}" width="150px">
+                <h3>{{P_Name}}</h3>
+                <p>₹ {{P_Price}}</p>
+            </div>
+            {{/each}}
+    </div> 
+    </section>
+    
+    <script src="/script.js"></script>
+
+    {{#if myProducts}}
+    <script>
+        document.querySelector('main').style.display = 'none';
+        document.getElementById('title').style.display = 'block';
+        document.getElementById('productList').style.display = 'flex';
+    </script>
+    {{/if}}
+</body>
+</html>

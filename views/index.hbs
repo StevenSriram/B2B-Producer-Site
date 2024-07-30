@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Agent</title>
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1>I'm Agent</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+            <button class="srch-btn" onclick="searchProducts()">Search</button>
+        </div>
+        <i class="fa-solid fa-bars" id="menubar"></i>
+        <nav>   
+            <a href="/index" class="home"><span></span>Home</a>
+            <a href="/index#footer"><span></span>About</a>
+            <a href="/index#contact"><span></span>Contact</a>
+            <button id="profile-button" class="signup-button" onclick="togglePopup('profile-form')">Profile<i class="fa-solid fa-user"></i></button>
+            <button id="my-product" class="signup-button" >MyList <i class="fas fa-shopping-cart"></i></button>
+            <button id="login-button" class="signup-button" onclick="togglePopup('login-form')">SignUp <i class="fas fa-user-circle"></i></button>
+        </nav>
+    </header>
+    <div class="navbg"></div>
+
+    <div id="productList" class="product-list">
+        {{#if user}}
+            {{#each products}}
+            <div class="product">
+                <img src="{{Image_Path}}" alt="{{P_Name}}" width="150px">
+                <h3>{{P_Name}}</h3>
+                <p>₹ {{P_Price}}</p>
+                <a href="/cart/{{P_Id}}" class="btn">Buy</a>
+            </div>
+            {{/each}}
+            <a href="/add" id="newElement" class="product">
+            <img src="images/infinity.jpg" width="150">
+            <h3>Add New Product</h3>
+            </a>
+
+        {{else}}
+            {{#each products}}
+            <div class="product">
+                <img src="{{Image_Path}}" alt="{{P_Name}}" width="150px">
+                <h3>{{P_Name}}</h3>
+                <p>₹ {{P_Price}}</p>
+            </div>
+            {{/each}}
+         {{/if}}
+    </div>
+    <div id="login-form" class="popup-form">
+        <span class="popup-close" onclick="togglePopup('login-form')">X</span>
+        <h2>Login</h2>
+        {{#if errorMessage}}
+            <h2 style="color: red;">{{errorMessage}}</h2>
+        {{/if}}
+        <form action="/login" method="POST" enctype="multipart/form-data">
+            <label for="login-email">Email:</label>
+            <input type="email" id="login-email" name="login_email" required>
+            <label for="login-password">Password:</label>
+            <input type="password" id="login-password" name="login_password" required>
+            <button type="submit">Login</button>
+            <p>Already have an account   <a onclick="togglePopup('register-form')">Register</a></p>
+        </form>
+    </div>
+
+    <div id="register-form" class="popup-form">
+        <span class="popup-close" onclick="togglePopup('register-form')">X</span>
+        <h2>Register</h2>
+        <form action="/register" method="POST" enctype="multipart/form-data">
+            <label for="register-name">Name:</label>
+            <input type="text" style="width: 100%;padding:8px;margin-bottom:10px" id="register-name" name="register_name" required>
+            <label for="register-email">Email:</label>
+            <input type="email" id="register-email" name="register_email" required>
+            <label for="register-password">Password:</label>
+            <input type="password" id="register-password" name="register_password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+    
+    <div id="profile-form" class="popup-form">
+        <a href="/logout" class="logout-button"><i class="fa-solid fa-right-from-bracket"></i></a>
+        <span class="popup-close" onclick="togglePopup('profile-form')">X</span>
+        <h2>Profile</h2>
+        <div class="profile-data">
+            <figure>
+            <img id="profile-image" src="images/profile-image.png" alt="Profile-Image">
+            <figcaption>
+                <h3>UserName : <p>None</p></h3>
+                <h3>Email : <p>None</p></h3>
+            </figcaption>
+        </figure>
+        </div>
+    </div>
+    
+    <script src="https://kit.fontawesome.com/b148357d8c.js" crossorigin="anonymous"></script>
+    <script src="/script.js"></script>
+     {{#if user}}
+     <script>
+        document.getElementById('my-product').style.display = 'inline'
+        document.getElementById('profile-button').style.display = 'inline'
+        document.getElementById('login-button').style.display = 'none'
+        document.querySelector('figcaption').innerHTML = 
+                `
+                    <h3>UserName : <p>{{user.Name}}</p></h3>
+                    <h3>Email : <p>{{user.Email}}</p></h3>
+                `
+     </script>
+     {{/if}}
+</body>
+
+<footer id="footer">
+    <div class="footer-content">
+        <h2>About Firework Industry</h2>
+        <p>
+            B2B communication involves businesses exchanging information, products, or services, crucial for transactions, collaboration, and decision-making. It ensures effective partnerships, customer relationships, and industry knowledge sharing</p>
+    </div>
+    <div class="footer-content">
+        <h2>Contact</h2>
+        <p>123 Firework Street</p>
+        <p>Sivakasi</p>
+        <p>Phone: 123-456-7890</p>
+    </div>
+    <div class="footer-content" id="contact">
+        <h2>Email</h2>
+        <p>Email: <a href="mailto:idnoob2486@gmail.com">idnoob2486@gmail.com</a></p>
+    </div>
+</footer>
+
+</html>

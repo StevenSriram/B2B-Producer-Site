@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Page</title>
+<style>
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    min-height: 100vh;
+    width: 100%;
+    background-image: url('/images/home.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    transition: .5s ease-in;
+}
+nav{
+    margin-right: 110px;
+}
+header{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    background-color: rgba(255,255,255,.1);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255,255,255,.4);
+    z-index: 100;
+}
+header::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+    transparent,
+    rgba(255,255,255,.4),
+    transparent);
+    transition: .5s;
+}
+header:hover::before{
+    left: 100%;
+}
+header h1{
+    color: white;
+    font-size: 2em;
+    text-shadow: 0 0 10px bisque;
+    text-transform: uppercase;
+    cursor: default;
+}
+header a {
+    position: relative;
+    text-decoration: none;
+    color: rgba(245, 243, 243, 0.801);
+    font-size: 1.3em;
+    padding: 6px;
+    margin-left: 35px;
+    transition: color 0.3s;
+}
+
+header a::before {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 70%;
+    height: 2px;
+    transform-origin: left;
+    background-color: transparent;
+    transition: 0.5s;
+}
+
+header a:hover::before {
+    width: 100%;
+    background-color: crimson;
+}
+header #darklight:hover::before{
+    display: none;
+}
+
+label{
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    background-color: black;
+    cursor: pointer;
+    transition: .4s;
+    border-radius: 30px;
+    box-shadow: 0 0 20px crimson;
+}
+label::before{
+    position: absolute;
+    content: '';
+    top: 5px;
+    left: 4px;
+    background-color:ghostwhite;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transition: .4s;
+}
+#toggle{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+#toggle:checked+label{
+    background-color: ghostwhite;
+}
+#toggle:checked+label::before{
+    transform: translateX(20px);
+    background-color: black;
+}
+
+.rpopup {
+    display: none;
+    position: fixed;
+    top: 100px;
+    right: 50px;
+    transform: translate(0, 0);
+    border-radius: 30px;
+    margin-top: 25px;
+    background-color: #f1f1f1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    z-index: 100;
+}
+
+.rpopup.active {
+    display: block;
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+}
+
+.star {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}
+
+.content{
+    height: calc(100vh - 100px);
+    text-align: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.choice{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #3498db;
+    border-radius: 5px;
+    color: white;
+    transform: scale(1);
+    border: none;
+    cursor: pointer;
+    transition: .6s;
+}
+button:hover{
+    font-size: 1.5em;
+    background-color: transparent;
+    border: 2px solid aqua;
+    transform: scale(1.05);
+    box-shadow: 0 0 10px ghostwhite;
+}
+
+.popup {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100px;
+    width: 300px;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.popup p {
+    margin: 0 0 20px 0;
+    font-size: 1.5em;
+}
+
+.popup a {
+    display: block;
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: red;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+.detail{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    height: 400px;
+    padding: 10px 100px;
+    background-color: rgb(92, 92, 92);
+}
+.text {
+    width: 500px;
+    height: 320px;
+    background-color:black;
+    position: relative;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+}
+
+.text:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+.text h2{
+    margin-bottom: 10px;
+    color: ghostwhite;
+    font-size: 1.5em;
+    text-align: center;
+}
+.text p {
+margin-bottom: 5px;
+color: bisque;
+text-align: justify;
+font-size: 1.2em;
+}
+</style>
+</head>
+<body>
+        <header>
+        <h1>M@W</h1>
+        <i class="fa-solid fa-bars" id="menubar"></i>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/#detail">About</a>
+            <a id="rateUs">Rate Us</a>
+            <a id="darklight">
+                
+                <input type="checkbox" id="toggle">
+                <label for="toggle" class="slider"></label>
+            </a>
+        </nav>
+    </header>
+    <div id="ratingPopup" class="rpopup">
+        <div class="rating">
+            <span class="star" data-value="1">&#9733;</span>
+            <span class="star" data-value="2">&#9733;</span>
+            <span class="star" data-value="3">&#9733;</span>
+            <span class="star" data-value="4">&#9733;</span>
+            <span class="star" data-value="5">&#9733;</span>
+        </div>
+    </div>
+    <div class="navbg"></div>
+<div class="content">
+    <button id="getStartedBtn">Get Started</button>
+    <div id="popup" class="popup">
+        <span id="closeBtn" class="close-btn">X</span>
+        <p>Are you?</p>
+        <div class="choice">
+            <a href="/index">Producer</a>
+            <a href="#consumer">WholeSeller</a>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const getStartedBtn = document.getElementById('getStartedBtn');
+    const popup = document.getElementById('popup');
+    const closeBtn = document.getElementById('closeBtn');
+
+    getStartedBtn.addEventListener('click', function() {
+        getStartedBtn.style.display = 'none';
+        popup.style.display = 'block';
+    });
+
+    closeBtn.addEventListener('click', function() {
+        getStartedBtn.style.display = 'block';
+        popup.style.display = 'none';
+    }); 
+
+    let toggleButton = document.getElementById('toggle');
+    toggleButton.addEventListener('change', () => {
+        document.body.style.backgroundImage = toggleButton.checked ? 'url(/images/lighthome.png)' : 'url(/images/home.jpg)';
+    });
+
+    const rateUsLink = document.getElementById('rateUs');
+    const ratingPopup = document.getElementById('ratingPopup');
+
+    rateUsLink.addEventListener('click', (event) => {
+        event.preventDefault();
+        ratingPopup.classList.add('active');
+    });
+
+    document.querySelectorAll('.star').forEach((star) => {
+        star.addEventListener('click', () => {
+            const rating = star.dataset.value;
+            alert(`You rated us ${rating} stars!`);
+            ratingPopup.classList.remove('active');
+        });
+    });
+</script>
+</body>
+
+<footer class="detail" id="detail">
+        <div class="text">
+            <h2>Producer</h2>
+            <p>Producers are responsible for the creation and manufacturing of fireworks. They design, develop, and produce a variety of fireworks,
+                 from sparklers to aerial shells. Producers adhere to strict safety standards and regulations to ensure the quality and safety of their products. They innovate to create new types of fireworks and continually improve existing designs. Producers also handle the storage and transportation of fireworks to wholesalers and retailers,
+                 ensuring that they are stored safely and transported securely.</p>
+        </div>
+        <div class="text">
+            <h2>WholeSeller</h2>
+            <p>Wholesalers act as intermediaries between producers and retailers. They purchase fireworks in bulk from producers and then distribute them to retailers. Wholesalers manage warehouses where they store fireworks before distribution. They are responsible for the logistics of distributing fireworks to different locations,
+                 ensuring that retailers receive their orders promptly. Wholesalers also build relationships with retailers,
+                 providing them with customer support and promoting fireworks to boost sales.</p>
+        </div>
+</footer>
+
+</html>
+
+
